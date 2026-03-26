@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Shadow Arena</title>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -11,19 +11,24 @@
 
 <div class="app">
 
-  <!-- TOP HUD -->
+  <!-- TOP -->
   <div class="topbar">
     <div class="logo">🌑 SHADOW ARENA</div>
-    <div id="stats" class="stats">Lvl 1 | HP 100 | XP 0</div>
+    <div id="stats" class="stats">Loading...</div>
   </div>
 
-  <!-- MAIN SCREEN -->
+  <!-- SCREEN -->
   <div class="screen" id="screen">
     <h2>Welcome Warrior</h2>
-    <p>Choose your action below</p>
+
+    <div id="hpBar">
+      <div id="hpFill"></div>
+    </div>
+
+    <p>Choose action below</p>
   </div>
 
-  <!-- ACTION BUTTONS -->
+  <!-- ACTIONS -->
   <div class="actions">
     <button onclick="fight()">⚔ Fight</button>
     <button onclick="openChest()">🧰 Chest</button>
@@ -42,5 +47,6 @@
 </div>
 
 <script src="game.js"></script>
+
 </body>
 </html>
