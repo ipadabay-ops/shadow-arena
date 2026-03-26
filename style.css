@@ -1,85 +1,31 @@
-@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap');
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Rajdhani', sans-serif;
-}
-
 body {
-  background: radial-gradient(circle at top, #120018, #000);
+  margin: 0;
+  font-family: Arial;
+  background: #0b0016;
   color: white;
-  overflow: hidden;
 }
 
-/* APP LAYOUT */
 .app {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
-/* TOP BAR */
 .topbar {
-  padding: 12px;
-  background: rgba(255,255,255,0.05);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  backdrop-filter: blur(10px);
+  padding: 10px;
+  background: #1a0033;
 }
 
 .logo {
-  font-size: 18px;
-  font-weight: 700;
+  font-weight: bold;
   color: #b300ff;
-  text-shadow: 0 0 10px #b300ff;
 }
 
-.stats {
-  font-size: 14px;
-  opacity: 0.8;
-}
-
-/* SCREEN */
 .screen {
   flex: 1;
-  margin: 12px;
-  padding: 18px;
-  border-radius: 16px;
-
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
-  backdrop-filter: blur(12px);
-
-  box-shadow: 0 0 20px rgba(179,0,255,0.15);
+  padding: 15px;
 }
 
-.screen h2 {
-  margin-bottom: 10px;
-  text-shadow: 0 0 10px rgba(255,255,255,0.2);
-}
-
-/* HP BAR */
-#hpBar {
-  width: 100%;
-  height: 14px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 20px;
-  overflow: hidden;
-  margin: 10px 0;
-  border: 1px solid rgba(255,255,255,0.1);
-}
-
-#hpFill {
-  height: 100%;
-  width: 100%;
-  background: linear-gradient(90deg, #ff003c, #ffae00, #00ff95);
-  transition: 0.3s;
-  box-shadow: 0 0 10px rgba(0,255,150,0.3);
-}
-
-/* ACTION BUTTONS */
 .actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -88,47 +34,29 @@ body {
 }
 
 button {
-  padding: 14px;
+  padding: 12px;
   border: none;
-  border-radius: 14px;
-
-  background: linear-gradient(135deg, #6a00ff, #3b00ff);
+  background: #6a00ff;
   color: white;
-
-  font-size: 14px;
-  font-weight: 700;
-
-  box-shadow: 0 0 15px rgba(106,0,255,0.35);
-
-  transition: 0.2s ease;
+  border-radius: 10px;
 }
 
-button:active {
-  transform: scale(0.95);
-  box-shadow: 0 0 5px rgba(106,0,255,0.2);
-}
-
-/* BOTTOM NAV */
 .navbar {
   display: flex;
   justify-content: space-around;
   padding: 10px;
-
-  background: rgba(0,0,0,0.6);
-  border-top: 1px solid rgba(255,255,255,0.1);
-  backdrop-filter: blur(10px);
+  background: #000;
 }
 
-.navbar button {
-  flex: 1;
-  margin: 0 5px;
-  background: rgba(255,255,255,0.08);
-  font-size: 18px;
-  border-radius: 12px;
+#hpBar {
+  width: 100%;
+  height: 10px;
+  background: #333;
+  margin: 10px 0;
 }
 
-/* HOVER EFFECT (PC) */
-button:hover {
-  filter: brightness(1.2);
-  cursor: pointer;
+#hpFill {
+  height: 100%;
+  width: 100%;
+  background: red;
 }
