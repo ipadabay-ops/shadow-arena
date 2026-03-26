@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shadow Arena</title>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -11,13 +11,11 @@
 
 <div class="app">
 
-  <!-- TOP -->
   <div class="topbar">
     <div class="logo">🌑 SHADOW ARENA</div>
-    <div id="stats" class="stats">Loading...</div>
+    <div id="stats">Loading...</div>
   </div>
 
-  <!-- SCREEN -->
   <div class="screen" id="screen">
     <h2>Welcome Warrior</h2>
 
@@ -25,18 +23,16 @@
       <div id="hpFill"></div>
     </div>
 
-    <p>Choose action below</p>
+    <p>Press buttons to play</p>
   </div>
 
-  <!-- ACTIONS -->
   <div class="actions">
     <button onclick="fight()">⚔ Fight</button>
-    <button onclick="openChest()">🧰 Chest</button>
+    <button onclick="chest()">🧰 Chest</button>
     <button onclick="shop()">🛒 Shop</button>
     <button onclick="boss()">👹 Boss</button>
   </div>
 
-  <!-- BOTTOM NAV -->
   <div class="navbar">
     <button onclick="tab('inv')">🎒</button>
     <button onclick="tab('char')">🧍</button>
@@ -46,7 +42,6 @@
 
 </div>
 
-<script src="game.js"></script>
-
+  <script src="game.js"></script>
 </body>
 </html>
