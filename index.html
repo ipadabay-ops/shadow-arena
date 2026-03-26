@@ -1,277 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shadow Arena MAX ULTIMATE</title>
-
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-<style>
-body{
-margin:0;
-font-family:Arial;
-background: radial-gradient(circle at top,#1c1c44,#050510);
-color:white;
-overflow:hidden;
-}
-
-.top{
-text-align:center;
-padding:10px;
-font-weight:bold;
-text-shadow:0 0 10px cyan;
-}
-
-.screen{
-height:calc(100vh - 140px);
-overflow:auto;
-padding:10px;
-}
-
-.card{
-background:rgba(255,255,255,0.06);
-padding:12px;
-margin:10px 0;
-border-radius:15px;
-backdrop-filter:blur(10px);
-box-shadow:0 0 20px rgba(0,255,255,0.1);
-animation:fade .25s ease;
-}
-
-@keyframes fade{
-from{opacity:0;transform:translateY(10px);}
-to{opacity:1;transform:translateY(0);}
-}
-
-.bottom{
-position:fixed;
-bottom:0;
-width:100%;
-display:flex;
-justify-content:space-around;
-background:#0a0a18;
-padding:10px 0;
-border-top:1px solid #222;
-}
-
-.tab{opacity:.6;font-size:12px;cursor:pointer;}
-.tab.active{opacity:1;color:#00ffd5;}
-
-button{
-padding:10px;
-border:none;
-border-radius:10px;
-margin:5px;
-cursor:pointer;
-}
-
-.attack{background:red;color:white;}
-.skill{background:purple;color:white;}
-.shop{background:gold;}
-</style>
+<title>Shadow Arena</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="top">⚔️ SHADOW ARENA MAX ULTIMATE V3</div>
-<div class="screen" id="screen"></div>
+<div class="top">
+  <h1>🌑 Shadow Arena</h1>
+  <p id="stats"></p>
+</div>
+
+<div class="screen" id="screen">
+  <p>Choose action</p>
+</div>
+
+<div class="actions">
+  <button onclick="fight()">⚔ Fight</button>
+  <button onclick="openChest()">🧰 Chest</button>
+  <button onclick="shop()">🛒 Shop</button>
+  <button onclick="boss()">👹 Boss</button>
+</div>
 
 <div class="bottom">
-<div class="tab active" onclick="openTab(event,'home')">🏠</div>
-<div class="tab" onclick="openTab(event,'battle')">⚔️</div>
-<div class="tab" onclick="openTab(event,'boss')">👹</div>
-<div class="tab" onclick="openTab(event,'shop')">🛒</div>
+  <button onclick="tab('inv')">Inventory</button>
+  <button onclick="tab('char')">Character</button>
+  <button onclick="tab('world')">Worlds</button>
+  <button onclick="tab('pvp')">PvP</button>
 </div>
 
-<script>
-
-let tg = window.Telegram.WebApp;
-tg.expand();
-
-let user = tg.initDataUnsafe?.user;
-
-let game={
-hp:220,
-atk:30,
-lvl:1,
-world:1,
-gold:0,
-skin:"Shadow Knight",
-class:"Warrior",
-energy:5
-};
-
-let enemy={};
-let boss={};
-
-const skins=["Shadow Knight","Fire Samurai","Ice Assassin","Void Reaper"];
-
-const bosses=[
-"Dragon King",
-"Shadow Titan",
-"Void God",
-"Ice Leviathan"
-];
-
-const classes={
-Warrior:{atk:30,hp:220,crit:0.1},
-Mage:{atk:40,hp:160,crit:0.25},
-Assassin:{atk:35,hp:180,crit:0.4}
-};
-
-function spawnEnemy(){
-enemy={hp:100+game.world*60};
-}
-
-function spawnBoss(){
-boss={name:bosses[game.world-1],hp:300+game.world*150};
-}
-
-function effect(){
-document.body.style.transform="translateX(5px)";
-setTimeout(()=>document.body.style.transform="translateX(-5px)",50);
-setTimeout(()=>document.body.style.transform="translateX(0)",100);
-}
-
-function attackEnemy(target){
-let crit=Math.random()<classes[game.class].crit;
-let dmg=game.atk+Math.random()*15;
-
-if(crit){
-dmg*=2;
-log("💥 CRIT!");
-}
-
-target.hp-=dmg;
-effect();
-
-if(target.hp<=0){
-game.gold+=50;
-game.lvl++;
-log("🏆 Enemy defeated!");
-spawnEnemy();
-}
-enemyAttack();
-render();
-}
-
-function enemyAttack(){
-let dmg=20+Math.random()*20;
-game.hp-=dmg;
-
-if(game.hp<=0){
-game.hp=220;
-game.world=1;
-log("💀 You died");
-}
-}
-
-function bossFight(){
-let dmg=game.atk+Math.random()*20;
-boss.hp-=dmg;
-
-effect();
-
-if(boss.hp<=0){
-game.gold+=200;
-game.world++;
-if(game.world>4)game.world=4;
-log("👹 Boss defeated!");
-spawnBoss();
-}
-
-enemyAttack();
-render();
-}
-
-function skill(){
-if(game.energy<=0){log("No energy");return;}
-game.energy--;
-let dmg=game.atk*2;
-enemy.hp-=dmg;
-log("⚡ Skill hit!");
-render();
-}
-
-function openTab(e,t){
-current=t;
-document.querySelectorAll(".tab").forEach(el=>el.classList.remove("active"));
-e.target.classList.add("active");
-render();
-}
-
-let current="home";
-
-function log(t){
-document.getElementById("log")?.innerText=t;
-}
-
-function render(){
-let s=document.getElementById("screen");
-
-if(current=="home"){
-s.innerHTML=`
-<div class="card">
-<h3>👤 ${user?user.first_name:"Guest"}</h3>
-<p>❤️ HP ${game.hp}</p>
-<p>⚔️ ATK ${game.atk}</p>
-<p>⭐ LVL ${game.lvl}</p>
-<p>🌍 WORLD ${game.world}</p>
-<p>💰 GOLD ${game.gold}</p>
-<p>🎯 SKIN ${game.skin}</p>
-<p>🧙 CLASS ${game.class}</p>
-</div>
-<p id="log"></p>
-`;
-}
-
-if(current=="battle"){
-s.innerHTML=`
-<div class="card">
-<h3>⚔️ BATTLE</h3>
-<p>Enemy HP: ${enemy.hp}</p>
-<button class="attack" onclick="attackEnemy(enemy)">ATTACK</button>
-<button class="skill" onclick="skill()">SKILL</button>
-</div>
-`;
-}
-
-if(current=="boss"){
-s.innerHTML=`
-<div class="card">
-<h3>👹 BOSS</h3>
-<p>${boss.name}</p>
-<p>HP: ${boss.hp}</p>
-<button class="attack" onclick="bossFight()">FIGHT BOSS</button>
-</div>
-`;
-}
-
-if(current=="shop"){
-s.innerHTML=`
-<div class="card">
-<h3>🛒 SHOP</h3>
-<button onclick="buySkin()">Buy Skin (100)</button>
-</div>
-`;
-}
-}
-
-function buySkin(){
-if(game.gold<100){log("Not enough gold");return;}
-let s=skins[Math.floor(Math.random()*skins.length)];
-game.skin=s;
-game.gold-=100;
-log("Skin: "+s);
-render();
-}
-
-spawnEnemy();
-spawnBoss();
-render();
-
-</script>
-
+<script src="game.js"></script>
 </body>
 </html>
