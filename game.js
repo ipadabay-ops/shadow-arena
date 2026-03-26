@@ -7,9 +7,6 @@ let player = {
   inventory: []
 };
 
-const rarities = ["Common", "Rare", "Epic", "Legendary"];
-const items = ["Sword", "Axe", "Bow", "Staff", "Armor"];
-
 function updateUI() {
   document.getElementById("stats").innerText =
     Lvl ${player.level} | XP ${player.xp} | Gold ${player.gold};
@@ -18,10 +15,12 @@ function updateUI() {
     (player.hp / player.maxHp) * 100 + "%";
 }
 
-/* 💥 DAMAGE EFFECT */
-function hitEffect() {
-  document.body.classList.add("hit");
-  setTimeout(() => document.body.classList.remove("hit"), 300);
+function log(text) {
+  document.getElementById("screen").innerHTML = `
+    <h2>${text}</h2>
+    <div id="hpBar"><div id="hpFill"></div></div>
+  `;
+  updateUI();
 }
 
 /* ⚔ FIGHT */
@@ -32,8 +31,6 @@ function fight() {
   player.hp -= dmg;
   player.xp += xp;
   player.gold += 10;
-
-  hitEffect();
 
   if (player.xp >= 100) {
     player.level++;
@@ -47,74 +44,61 @@ function fight() {
 }
 
 /* 🧰 CHEST */
-function openChest() {
+function chest() {
+  let items = ["Sword", "Shield", "Bow", "Potion"];
   let item = items[Math.floor(Math.random() * items.length)];
-  let rarity = rarities[Math.floor(Math.random() * rarities.length)];
 
-  player.inventory.push(`${rarity} ${item}`);
+  player.inventory.push(item);
 
-  log(`🧰 You got: ${rarity} ${item}`);
+  log(`🧰 You got ${item}`);
   updateUI();
 }
 
 /* 🛒 SHOP */
 function shop() {
-  if (player.gold >= 30) {
-    player.gold -= 30;
+  if (player.gold >= 20) {
+    player.gold -= 20;
     player.hp = player.maxHp;
     log("🛒 Full heal bought!");
   } else {
-    log("❌ Not enough gold!");
+    log("❌ Not enough gold");
   }
   updateUI();
 }
 
 /* 👹 BOSS */
 function boss() {
-  let bossHp = 80;
-  let dmg = Math.floor(Math.random() * 40);
+  let win = Math.random() > 0.5;
 
-  bossHp -= dmg;
-
-  if (bossHp <= 0 || Math.random() > 0.5) {
+  if (win) {
     player.level++;
-    player.gold += 100;
-    log("👹 Boss defeated! +1 Level +100 Gold");
+    player.gold += 50;
+    log("👹 Boss defeated!");
   } else {
-    player.hp -= 40;
+    player.hp -= 30;
     log("👹 Boss hit you!");
   }
 
   updateUI();
 }
 
-/* 🌍 WORLDS */
-function tab(name) {
-  if (name === "world") {
-    log("🌍 Worlds: Forest | Desert | Ice | Shadow Realm");
+/* 🎮 NAV */
+function tab(type) {
+  if (type === "inv") {
+    log("🎒 " + player.inventory.join(", "));
   }
 
-  if (name === "inv") {
-    log("🎒 Inventory: " + player.inventory.join(", "));
+  if (type === "char") {
+    log(`🧍 Level ${player.level} HP ${player.hp}`);
   }
 
-  if (name === "char") {
-    log(`🧍 Level ${player.level} | HP ${player.hp}/${player.maxHp}`);
+  if (type === "world") {
+    log("🌍 Worlds: Forest / Desert / Ice / Shadow");
   }
 
-  if (name === "pvp") {
-    if (player.level >= 5) {
-      log("⚔ PvP UNLOCKED!");
-    } else {
-      log("🔒 PvP unlocks at level 5");
-    }
+  if (type === "pvp") {
+    log(player.level >= 5 ? "⚔ PvP UNLOCKED" : "🔒 PvP at level 5");
   }
-}
-
-function log(text) {
-  document.getElementById("screen").innerHTML = `
-    <h2>${text}</h2>
-  `;
 }
 
 updateUI();
