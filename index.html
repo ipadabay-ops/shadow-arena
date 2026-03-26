@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<title>Shadow Arena Legends</title>
+
+<style>
+body {
+margin:0;
+font-family:Arial;
+color:white;
+text-align:center;
+background: radial-gradient(circle at top, #1a0033, #000);
+overflow-x:hidden;
+}
+
+h1 {
+text-shadow:0 0 20px purple;
+}
+
+.card {
+background: rgba(255,255,255,0.05);
+margin:10px;
+padding:15px;
+border-radius:15px;
+backdrop-filter: blur(10px);
+box-shadow:0 0 20px rgba(128,0,255,0.5);
+}
+
+button {
+padding:12px;
+margin:5px;
+border:none;
+border-radius:12px;
+background:linear-gradient(45deg,#6a00ff,#ff00aa);
+color:white;
+font-weight:bold;
+transition:0.2s;
+}
+
+button:active {
+transform:scale(0.9);
+}
+
+.common{border-left:5px solid gray;}
+.rare{border-left:5px solid blue;}
+.epic{border-left:5px solid purple;}
+.legendary{border-left:5px solid gold;}
+
+.glow {
+animation: glow 1s infinite alternate;
+}
+
+@keyframes glow {
+from {box-shadow:0 0 10px purple;}
+to {box-shadow:0 0 30px pink;}
+}
+
+.hit {
+animation: hit 0.3s;
+}
+@keyframes hit {
+0%{transform:scale(1);}
+50%{transform:scale(1.2);}
+100%{transform:scale(1);}
+}
+</style>
+</head>
+
+<body>
+
+<h1>⚔️ Shadow Arena</h1>
+
+<div class="card glow">
+<p id="stats"></p>
+<button onclick="fight()">⚔️ Fight</button>
+<button onclick="boss()">👹 Boss</button>
+<button onclick="pvp()">🔥 PvP</button>
+</div>
+
+<div class="card">
+<button onclick="openChest()">🎁 Chest</button>
+<button onclick="inventory()">🎒 Inventory</button>
+<button onclick="shop()">🛒 Shop</button>
+</div>
+
+<div class="card" id="out">Добро пожаловать в игру</div>
+
+<script>
+let tg = window.Telegram.WebApp;
+tg.expand();
+
+let p = JSON.parse(localStorage.getItem("game")) || {
+hp:100, gold:100, xp:0, lvl:1, world:1, inv:[], weapon:null
+};
+
+function save(){localStorage.setItem("game",JSON.stringify(p));}
+
+function update(){
+stats.innerText =
+❤️ ${p.hp} | 💰 ${p.gold} | ⭐ ${p.lvl} | 🌍 ${p.world};
+}
+
+function xp(x){
+p.xp+=x;
+if(p.xp>=p.lvl*20 && p.lvl<100){
+p.xp=0; p.lvl++;
+out.innerHTML="🔥 LEVEL UP!";
+}
+}
+
+function fight(){
+let dmg = Math.random()*20;
+p.hp -= Math.random()*15;
+
+if(p.hp<=0){
+p.hp=100;
+out.innerHTML="💀 You died";
+}else{
+p.gold+=10;
+xp(10);
+out.innerHTML="⚔️ Victory!";
+}
+
+anim(); save(); update();
+}
+
+function boss(){
+let hp = 50 + p.world*30;
+
+if(p.hp>hp){
+p.gold+=100;
+xp(30);
+p.world = Math.min(4,p.world+1);
+out.innerHTML="👹 Boss defeated!";
+}else{
+out.innerHTML="💀 Boss killed you";
+p.hp=100;
+}
+
+anim(); save(); update();
+}
+
+function pvp(){
+if(p.lvl<5){
+out.innerHTML="❌ Unlock at lvl 5";
+return;
+}
+
+let enemy = Math.random()*100 + p.lvl*5;
+let win = p.lvl*10 > enemy;
+
+out.innerHTML = win ? "🔥 PvP WIN" : "💀 PvP LOSE";
+
+if(win){p.gold+=30; xp(20);}
+else p.hp=100;
+
+anim(); save(); update();
+}
+
+function openChest(){
+if(p.gold<50){out.innerHTML="❌ No gold";return;}
+
+p.gold-=50;
+
+let r=Math.random();
+let rar = r<0.5?"common":r<0.8?"rare":r<0.95?"epic":"legendary";
+
+let item={
+name:"Blade "+Math.floor(Math.random()*100),
+rarity:rar,
+power:Math.floor(Math.random()*20)
+};
+
+p.inv.push(item);
+
+out.innerHTML=`🎁 <div class="${rar}">${item.name}</div>`;
+
+save(); update();
+}
+
+function inventory(){
+let html="<h3>🎒 Inventory</h3>";
+
+p.inv.forEach((i,idx)=>{
+html+=`<div class="${i.rarity}">
+${i.name} ⚔️${i.power}
+<button onclick="equip(${idx})">Equip</button>
+</div>`;
+});
+
+out.innerHTML=html;
+}
+
+function equip(i){
+p.weapon=p.inv[i];
+out.innerHTML="⚔️ Equipped "+p.weapon.name;
+save();
+}
+
+function shop(){
+out.innerHTML=`
+<h3>🛒 Shop</h3>
+<button onclick="buy()">❤️ +HP (30)</button>
+`;
+}
+
+function buy(){
+if(p.gold>=30){
+p.gold-=30; p.hp+=20;
+out.innerHTML="❤️ Healed";
+}else out.innerHTML="❌ Not enough gold";
+
+save(); update();
+}
+
+function anim(){
+out.classList.add("hit");
+setTimeout(()=>out.classList.remove("hit"),300);
+}
+
+update();
+</script>
+
+</body>
+</html>
