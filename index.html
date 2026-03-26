@@ -1,33 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shadow Arena</title>
 <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<div class="top">
-  <h1>🌑 Shadow Arena</h1>
-  <p id="stats"></p>
-</div>
+<div class="app">
 
-<div class="screen" id="screen">
-  <p>Choose action</p>
-</div>
+  <!-- TOP HUD -->
+  <div class="topbar">
+    <div class="logo">🌑 SHADOW ARENA</div>
+    <div id="stats" class="stats">Lvl 1 | HP 100 | XP 0</div>
+  </div>
 
-<div class="actions">
-  <button onclick="fight()">⚔ Fight</button>
-  <button onclick="openChest()">🧰 Chest</button>
-  <button onclick="shop()">🛒 Shop</button>
-  <button onclick="boss()">👹 Boss</button>
-</div>
+  <!-- MAIN SCREEN -->
+  <div class="screen" id="screen">
+    <h2>Welcome Warrior</h2>
+    <p>Choose your action below</p>
+  </div>
 
-<div class="bottom">
-  <button onclick="tab('inv')">Inventory</button>
-  <button onclick="tab('char')">Character</button>
-  <button onclick="tab('world')">Worlds</button>
-  <button onclick="tab('pvp')">PvP</button>
+  <!-- ACTION BUTTONS -->
+  <div class="actions">
+    <button onclick="fight()">⚔ Fight</button>
+    <button onclick="openChest()">🧰 Chest</button>
+    <button onclick="shop()">🛒 Shop</button>
+    <button onclick="boss()">👹 Boss</button>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <div class="navbar">
+    <button onclick="tab('inv')">🎒</button>
+    <button onclick="tab('char')">🧍</button>
+    <button onclick="tab('world')">🌍</button>
+    <button onclick="tab('pvp')">⚔️</button>
+  </div>
+
 </div>
 
 <script src="game.js"></script>
