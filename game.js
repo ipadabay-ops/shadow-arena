@@ -1,37 +1,40 @@
+let hp = 100;
 let coins = 0;
-let power = 1;
 let level = 1;
+let power = 1;
 
-let enemyHp = 100;
-let enemyMax = 100;
+const hpEl = document.getElementById("hp");
+const coinsEl = document.getElementById("coins");
+const levelEl = document.getElementById("level");
+const powerEl = document.getElementById("power");
+const btn = document.getElementById("attackBtn");
+const char = document.getElementById("char");
 
-function update(){
-  document.getElementById("coins").innerText = coins;
-  document.getElementById("power").innerText = power;
-  document.getElementById("level").innerText = level;
+btn.addEventListener("click", attack);
 
-  let percent = (enemyHp / enemyMax) * 100;
-  document.getElementById("enemyHpBar").style.width = percent + "%";
+function attack() {
+    // анимация
+    char.style.transform = "scale(1.2)";
+    setTimeout(() => char.style.transform = "scale(1)", 100);
+
+    let dmg = Math.floor(Math.random() * power) + 1;
+    hp -= dmg;
+
+    if (hp <= 0) {
+        coins += 50;
+        level++;
+        power++;
+        hp = 100 + level * 20;
+    }
+
+    update();
 }
 
-function attack(){
-  let char = document.getElementById("char");
-  char.classList.add("hit");
-
-  setTimeout(()=>char.classList.remove("hit"),100);
-
-  let dmg = Math.floor(Math.random() * power) + 1;
-
-  enemyHp -= dmg;
-
-  if(enemyHp <= 0){
-    coins += 50;
-    level++;
-    enemyMax += 50;
-    enemyHp = enemyMax;
-  }
-
-  update();
+function update() {
+    hpEl.innerText = hp;
+    coinsEl.innerText = coins;
+    levelEl.innerText = level;
+    powerEl.innerText = power;
 }
 
 update();
