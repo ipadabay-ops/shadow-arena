@@ -1,90 +1,44 @@
-let coins = parseInt(localStorage.getItem("coins")) || 0;
-let power = parseInt(localStorage.getItem("power")) || 1;
-let level = parseInt(localStorage.getItem("level")) || 1;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shadow Arena</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
 
-let enemyHp = 100;
-let enemyMax = 100;
+<body>
 
-const enemies = [
-  "👹 Shadow Slime",
-  "🕷 Dark Spider",
-  "💀 Void Warrior",
-  "🔥 Hell Beast"
-];
+<header>🌑 SHADOW ARENA</header>
 
-function update(){
-  document.getElementById("coins").innerText = coins;
-  document.getElementById("power").innerText = power;
-  document.getElementById("level").innerText = level;
-  document.getElementById("enemyHp").innerText = enemyHp;
-}
+<div class="game">
 
-function save(){
-  localStorage.setItem("coins", coins);
-  localStorage.setItem("power", power);
-  localStorage.setItem("level", level);
-}
+  <!-- Enemy -->
+  <div class="enemy">
+    <div id="enemyName">👹 Shadow</div>
+    <div class="hp-bar">
+      <div id="enemyHpBar"></div>
+    </div>
+  </div>
 
-function attack(){
-  let crit = Math.random() < 0.2;
-  let dmg = power;
+  <!-- Character -->
+  <div class="character" id="char">
+    🧑‍🎤
+  </div>
 
-  if(crit){
-    dmg *= 3;
-    showText("CRIT HIT 💥 " + dmg);
-  } else {
-    showText("-" + dmg);
-  }
+  <!-- Attack -->
+  <button class="attack-btn" onclick="attack()">⚔️ ATTACK</button>
 
-  enemyHp -= dmg;
-  if(enemyHp <= 0){
-    coins += 50 * level;
-    level++;
-    spawnEnemy();
-  }
+  <!-- Stats -->
+  <div class="stats">
+    💰 <span id="coins">0</span> |  
+    ⭐ <span id="level">1</span> |  
+    ⚔️ <span id="power">1</span>
+  </div>
 
-  save();
-  update();
-}
+</div>
 
-function spawnEnemy(){
-  enemyHp = enemyMax + (level * 50);
-  enemyMax = enemyHp;
-
-  let e = enemies[Math.floor(Math.random()*enemies.length)];
-  document.getElementById("enemy").innerText = e;
-}
-
-function upgrade(){
-  if(coins >= 50){
-    coins -= 50;
-    power++;
-    save();
-    update();
-  }
-}
-
-function healBoss(){
-  if(coins >= 100){
-    coins -= 100;
-    enemyHp += 150;
-    update();
-  }
-}
-
-function skin(name){
-  alert("Skin equipped: " + name);
-}
-
-function showText(t){
-  let el = document.getElementById("damageText");
-  el.innerText = t;
-  setTimeout(()=> el.innerText="", 600);
-}
-
-// Telegram init
-let tg = window.Telegram.WebApp;
-tg.expand();
-
-update();
-spawnEnemy();
+<script src="game.js"></script>
+</body>
+</html>
