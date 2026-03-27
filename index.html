@@ -3,45 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shadow Arena</title>
+<title>Shadow Arena ULTRA</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="app">
+<header>🌑 SHADOW ARENA ULTRA</header>
 
-  <div class="topbar">
-    <div class="logo">🌑 SHADOW ARENA</div>
-    <div id="stats">Loading...</div>
-  </div>
-
-  <div class="screen" id="screen">
-    <h2>Welcome Warrior</h2>
-
-    <div id="hpBar">
-      <div id="hpFill"></div>
-    </div>
-
-    <p>Press buttons to play</p>
-  </div>
-
-  <div class="actions">
-    <button onclick="fight()">⚔ Fight</button>
-    <button onclick="chest()">🧰 Chest</button>
-    <button onclick="shop()">🛒 Shop</button>
-    <button onclick="boss()">👹 Boss</button>
-  </div>
-
-  <div class="navbar">
-    <button onclick="tab('inv')">🎒</button>
-    <button onclick="tab('char')">🧍</button>
-    <button onclick="tab('world')">🌍</button>
-    <button onclick="tab('pvp')">⚔️</button>
-  </div>
-
+<div class="panel">
+  <h2 id="enemy">👹 Enemy: Shadow Slime</h2>
+  <div class="hp">HP: <span id="enemyHp">100</span></div>
 </div>
 
-  <script src="game.js"></script>
+<div class="panel">
+  <h2>⚔️ Attack</h2>
+  <button onclick="attack()">ATTACK</button>
+  <div id="damageText"></div>
+</div>
+
+<div class="panel stats">
+  💰 Coins: <span id="coins">0</span><br>
+  ⭐ Level: <span id="level">1</span><br>
+  ⚔️ Power: <span id="power">1</span>
+</div>
+
+<div class="panel shop">
+  <h2>🛒 Shop</h2>
+  <button onclick="upgrade()">+1 Power (50💰)</button>
+  <button onclick="healBoss()">Spawn Boss (100💰)</button>
+</div>
+
+<div class="panel skins">
+  <h2>🎨 Skins</h2>
+  <button onclick="skin('Shadow Knight')">Shadow Knight</button>
+  <button onclick="skin('Void Samurai')">Void Samurai</button>
+</div>
+
+<script src="game.js"></script>
+
 </body>
 </html>
