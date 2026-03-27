@@ -1,104 +1,90 @@
-let player = {
-  level: 1,
-  hp: 100,
-  maxHp: 100,
-  xp: 0,
-  gold: 0,
-  inventory: []
-};
+let coins = parseInt(localStorage.getItem("coins")) || 0;
+let power = parseInt(localStorage.getItem("power")) || 1;
+let level = parseInt(localStorage.getItem("level")) || 1;
 
-function updateUI() {
-  document.getElementById("stats").innerText =
-    Lvl ${player.level} | XP ${player.xp} | Gold ${player.gold};
+let enemyHp = 100;
+let enemyMax = 100;
 
-  document.getElementById("hpFill").style.width =
-    (player.hp / player.maxHp) * 100 + "%";
+const enemies = [
+  "👹 Shadow Slime",
+  "🕷 Dark Spider",
+  "💀 Void Warrior",
+  "🔥 Hell Beast"
+];
+
+function update(){
+  document.getElementById("coins").innerText = coins;
+  document.getElementById("power").innerText = power;
+  document.getElementById("level").innerText = level;
+  document.getElementById("enemyHp").innerText = enemyHp;
 }
 
-function log(text) {
-  document.getElementById("screen").innerHTML = `
-    <h2>${text}</h2>
-    <div id="hpBar"><div id="hpFill"></div></div>
-  `;
-  updateUI();
+function save(){
+  localStorage.setItem("coins", coins);
+  localStorage.setItem("power", power);
+  localStorage.setItem("level", level);
 }
 
-/* ⚔ FIGHT */
-function fight() {
-  let dmg = Math.floor(Math.random() * 25);
-  let xp = Math.floor(Math.random() * 20);
+function attack(){
+  let crit = Math.random() < 0.2;
+  let dmg = power;
 
-  player.hp -= dmg;
-  player.xp += xp;
-  player.gold += 10;
-
-  if (player.xp >= 100) {
-    player.level++;
-    player.xp = 0;
-    player.maxHp += 20;
-    player.hp = player.maxHp;
-  }
-
-  log(`⚔ You fought! -${dmg} HP +${xp} XP`);
-  updateUI();
-}
-
-/* 🧰 CHEST */
-function chest() {
-  let items = ["Sword", "Shield", "Bow", "Potion"];
-  let item = items[Math.floor(Math.random() * items.length)];
-
-  player.inventory.push(item);
-
-  log(`🧰 You got ${item}`);
-  updateUI();
-}
-
-/* 🛒 SHOP */
-function shop() {
-  if (player.gold >= 20) {
-    player.gold -= 20;
-    player.hp = player.maxHp;
-    log("🛒 Full heal bought!");
+  if(crit){
+    dmg *= 3;
+    showText("CRIT HIT 💥 " + dmg);
   } else {
-    log("❌ Not enough gold");
+    showText("-" + dmg);
   }
-  updateUI();
+
+  enemyHp -= dmg;
+  if(enemyHp <= 0){
+    coins += 50 * level;
+    level++;
+    spawnEnemy();
+  }
+
+  save();
+  update();
 }
 
-/* 👹 BOSS */
-function boss() {
-  let win = Math.random() > 0.5;
+function spawnEnemy(){
+  enemyHp = enemyMax + (level * 50);
+  enemyMax = enemyHp;
 
-  if (win) {
-    player.level++;
-    player.gold += 50;
-    log("👹 Boss defeated!");
-  } else {
-    player.hp -= 30;
-    log("👹 Boss hit you!");
-  }
-
-  updateUI();
+  let e = enemies[Math.floor(Math.random()*enemies.length)];
+  document.getElementById("enemy").innerText = e;
 }
 
-/* 🎮 NAV */
-function tab(type) {
-  if (type === "inv") {
-    log("🎒 " + player.inventory.join(", "));
-  }
-
-  if (type === "char") {
-    log(`🧍 Level ${player.level} HP ${player.hp}`);
-  }
-
-  if (type === "world") {
-    log("🌍 Worlds: Forest / Desert / Ice / Shadow");
-  }
-
-  if (type === "pvp") {
-    log(player.level >= 5 ? "⚔ PvP UNLOCKED" : "🔒 PvP at level 5");
+function upgrade(){
+  if(coins >= 50){
+    coins -= 50;
+    power++;
+    save();
+    update();
   }
 }
 
-updateUI();
+function healBoss(){
+  if(coins >= 100){
+    coins -= 100;
+    enemyHp += 150;
+    update();
+  }
+}
+
+function skin(name){
+  alert("Skin equipped: " + name);
+}
+
+function showText(t){
+  let el = document.getElementById("damageText");
+  el.innerText = t;
+  setTimeout(()=> el.innerText="", 600);
+}
+
+// Telegram init
+let tg = window.Telegram.WebApp;
+tg.expand();
+
+update();
+spawnEnemy();
