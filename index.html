@@ -3,44 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shadow Arena ULTRA</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<title>Shadow Arena</title>
 <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<header>🌑 SHADOW ARENA ULTRA</header>
+<h1>🌑 Shadow Arena</h1>
 
-<div class="panel">
-  <h2 id="enemy">👹 Enemy: Shadow Slime</h2>
-  <div class="hp">HP: <span id="enemyHp">100</span></div>
-</div>
+<div id="enemy">👹 Enemy HP: <span id="hp">100</span></div>
 
-<div class="panel">
-  <h2>⚔️ Attack</h2>
-  <button onclick="attack()">ATTACK</button>
-  <div id="damageText"></div>
-</div>
+<div class="character" id="char">🧑‍🎤</div>
 
-<div class="panel stats">
-  💰 Coins: <span id="coins">0</span><br>
-  ⭐ Level: <span id="level">1</span><br>
-  ⚔️ Power: <span id="power">1</span>
-</div>
+<button id="attackBtn">⚔️ ATTACK</button>
 
-<div class="panel shop">
-  <h2>🛒 Shop</h2>
-  <button onclick="upgrade()">+1 Power (50💰)</button>
-  <button onclick="healBoss()">Spawn Boss (100💰)</button>
-</div>
-
-<div class="panel skins">
-  <h2>🎨 Skins</h2>
-  <button onclick="skin('Shadow Knight')">Shadow Knight</button>
-  <button onclick="skin('Void Samurai')">Void Samurai</button>
+<div class="stats">
+💰 Coins: <span id="coins">0</span><br>
+⭐ Level: <span id="level">1</span><br>
+⚔️ Power: <span id="power">1</span>
 </div>
 
 <script src="game.js"></script>
-
 </body>
 </html>
