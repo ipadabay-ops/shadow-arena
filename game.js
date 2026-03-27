@@ -1,44 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shadow Arena</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<link rel="stylesheet" href="style.css">
-</head>
+let coins = 0;
+let power = 1;
+let level = 1;
 
-<body>
+let enemyHp = 100;
+let enemyMax = 100;
 
-<header>🌑 SHADOW ARENA</header>
+function update(){
+  document.getElementById("coins").innerText = coins;
+  document.getElementById("power").innerText = power;
+  document.getElementById("level").innerText = level;
 
-<div class="game">
+  let percent = (enemyHp / enemyMax) * 100;
+  document.getElementById("enemyHpBar").style.width = percent + "%";
+}
 
-  <!-- Enemy -->
-  <div class="enemy">
-    <div id="enemyName">👹 Shadow</div>
-    <div class="hp-bar">
-      <div id="enemyHpBar"></div>
-    </div>
-  </div>
+function attack(){
+  let char = document.getElementById("char");
+  char.classList.add("hit");
 
-  <!-- Character -->
-  <div class="character" id="char">
-    🧑‍🎤
-  </div>
+  setTimeout(()=>char.classList.remove("hit"),100);
 
-  <!-- Attack -->
-  <button class="attack-btn" onclick="attack()">⚔️ ATTACK</button>
+  let dmg = Math.floor(Math.random() * power) + 1;
 
-  <!-- Stats -->
-  <div class="stats">
-    💰 <span id="coins">0</span> |  
-    ⭐ <span id="level">1</span> |  
-    ⚔️ <span id="power">1</span>
-  </div>
+  enemyHp -= dmg;
 
-</div>
+  if(enemyHp <= 0){
+    coins += 50;
+    level++;
+    enemyMax += 50;
+    enemyHp = enemyMax;
+  }
 
-<script src="game.js"></script>
-</body>
-</html>
+  update();
+}
+
+update();
