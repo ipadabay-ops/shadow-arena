@@ -1,62 +1,43 @@
 body {
-  margin: 0;
-  font-family: Arial;
-  background: #0b0016;
-  color: white;
+    margin:0;
+    font-family: Arial;
+    background: radial-gradient(circle, #0d0d1a, #000);
+    color:white;
+    text-align:center;
 }
 
-.app {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
+header {
+    padding:20px;
+    font-size:22px;
+    color:#a855f7;
+    font-weight:bold;
 }
 
-.topbar {
-  padding: 10px;
-  background: #1a0033;
-}
-
-.logo {
-  font-weight: bold;
-  color: #b300ff;
-}
-
-.screen {
-  flex: 1;
-  padding: 15px;
-}
-
-.actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  padding: 10px;
+.panel {
+    margin:15px;
+    padding:15px;
+    background:rgba(255,255,255,0.05);
+    border-radius:15px;
+    box-shadow:0 0 10px rgba(168,85,247,0.3);
 }
 
 button {
-  padding: 12px;
-  border: none;
-  background: #6a00ff;
-  color: white;
-  border-radius: 10px;
+    padding:12px 18px;
+    border:none;
+    border-radius:10px;
+    background:#a855f7;
+    color:white;
+    margin:5px;
+    cursor:pointer;
 }
 
-.navbar {
-  display: flex;
-  justify-content: space-around;
-  padding: 10px;
-  background: #000;
+button:active {
+    transform:scale(0.95);
 }
 
-#hpBar {
-  width: 100%;
-  height: 10px;
-  background: #333;
-  margin: 10px 0;
-}
-
-#hpFill {
-  height: 100%;
-  width: 100%;
-  background: red;
+#damageText {
+    color:#ff4d4d;
+    font-size:20px;
+    margin-top:10px;
+    transition:0.3s;
 }
