@@ -1,43 +1,64 @@
 body {
     margin:0;
     font-family: Arial;
-    background: radial-gradient(circle, #0d0d1a, #000);
+    background: linear-gradient(#0a0a0f, #000);
     color:white;
     text-align:center;
 }
 
 header {
-    padding:20px;
+    padding:15px;
     font-size:22px;
     color:#a855f7;
-    font-weight:bold;
 }
 
-.panel {
-    margin:15px;
-    padding:15px;
-    background:rgba(255,255,255,0.05);
-    border-radius:15px;
-    box-shadow:0 0 10px rgba(168,85,247,0.3);
+.game {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin-top:20px;
 }
 
-button {
-    padding:12px 18px;
-    border:none;
+.enemy {
+    margin-bottom:20px;
+}
+
+.hp-bar {
+    width:200px;
+    height:15px;
+    background:#333;
     border-radius:10px;
+    overflow:hidden;
+}
+
+#enemyHpBar {
+    height:100%;
+    width:100%;
+    background:red;
+    transition:0.3s;
+}
+
+.character {
+    font-size:80px;
+    margin:20px;
+    transition:0.1s;
+}
+
+.character.hit {
+    transform: scale(1.2);
+}
+
+.attack-btn {
+    padding:15px 30px;
+    font-size:18px;
+    border:none;
+    border-radius:12px;
     background:#a855f7;
     color:white;
-    margin:5px;
-    cursor:pointer;
-}
-
-button:active {
-    transform:scale(0.95);
-}
-
-#damageText {
-    color:#ff4d4d;
-    font-size:20px;
     margin-top:10px;
-    transition:0.3s;
+}
+
+.stats {
+    margin-top:15px;
+    font-size:18px;
 }
